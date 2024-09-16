@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="display-4">Weather App</h1>
+    </div>
+
+    <div class="d-flex justify-content-center mb-4">
+        <form method="get" class="form-inline">
+            <input type="text" name="city" placeholder="Search city" class="form-control mr-2" required style="width: 300px;">
+            <button type="submit" class="btn btn-outline-dark mt-2">Get Weather</button>
+        </form>
+    </div>
+    
+    {% if weather %}
+    <div class="card mx-auto mt-5 shadow-lg bg-light" style="max-width: 500px;">
+        <div class="card-body">
+            <h2 class="card-title text-center">Weather in {{ weather.name }}, {{ weather.sys.country }}</h2>
+            <div class="text-center my-4">
+                <img src="http://openweathermap.org/img/wn/{{ weather.weather.0.icon }}@4x.png" alt="Weather icon">
+                <h3>{{ weather.weather.0.main }} - {{ weather.weather.0.description }}</h3>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Temperature: <strong>{{ weather.main.temp }} °C</strong> (Feels like: <strong>{{ weather.main.feels_like }} °C</strong>)</li>
+                <li class="list-group-item">Min Temperature: <strong>{{ weather.main.temp_min }} °C</strong></li>
+                <li class="list-group-item">Max Temperature: <strong>{{ weather.main.temp_max }} °C</strong></li>
+                <li class="list-group-item">Pressure: <strong>{{ weather.main.pressure }} hPa</strong></li>
+                <li class="list-group-item">Humidity: <strong>{{ weather.main.humidity }}%</strong></li>
+                <li class="list-group-item">Visibility: <strong>{{ weather.visibility | floatformat:2 }} km</strong></li>
+                <li class="list-group-item">Wind: <strong>{{ weather.wind.speed }} m/s</strong> at <strong>{{ weather.wind.deg }}°</strong></li>
+                <li class="list-group-item">Cloudiness: <strong>{{ weather.clouds.all }}%</strong></li>
+                <li class="list-group-item">Coordinates: [<strong>{{ weather.coord.lat }}</strong>, <strong>{{ weather.coord.lon }}</strong>]</li>
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<div class="mt-5"></div>
+{% endblock %}
+
+<script>
+    async function fetchWeather(city) {
+        const response = await fetch(`/?city=${city}`);
+        const data = await response.text();
+        document.querySelector('.weather-container').innerHTML = data;
+    }
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const city = document.querySelector('input[name="city"]').value;
+        fetchWeather(city);
+    });
+</script>
