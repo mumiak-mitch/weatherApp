@@ -28,7 +28,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'weather-app-3f5n.onrender.com',
+    'weather-app-8yob.onrender.com',
     'localhost',  # For local development
     '127.0.0.1',   # For local development
 ]
