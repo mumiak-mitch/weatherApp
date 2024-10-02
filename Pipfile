@@ -8,6 +8,7 @@ django = "*"
 requests = "*"
 httpx = "*"
 django-environ = "*"
+gunicorn = "*"
 
 [dev-packages]
 
